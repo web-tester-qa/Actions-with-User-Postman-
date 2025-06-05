@@ -8,6 +8,52 @@
 	"item": [
 		{
 			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверка статус-кода",
+							"pm.test(\"Status code is 201 (Created)\", function() {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"// Парсим JSON ответа",
+							"const responseData = pm.response.json();",
+							"",
+							"// Проверка, содержит ли ответ отправленные данные",
+							"pm.test(\"Response contains request data\", function() {",
+							"    pm.expect(responseData).to.have.property('name', 'User');",
+							"    pm.expect(responseData).to.have.property('job', 'Tester');",
+							"});",
+							"",
+							"// Проверка наличия параметра 'id' и что он не пустой",
+							"pm.test(\"Response has 'id' field with value\", function() {",
+							"    pm.expect(responseData).to.have.property('id');",
+							"    pm.expect(responseData.id).to.be.a('string').that.is.not.empty;",
+							"});",
+							"",
+							"// Проверка наличия параметра 'createdAt' в корректном формате",
+							"pm.test(\"Response has 'createdAt' field with valid ISO date format\", function() {",
+							"    pm.expect(responseData).to.have.property('createdAt');",
+							"    ",
+							"    // Проверка корректности формата даты ISO",
+							"    const dateRegex = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$/;",
+							"    pm.expect(responseData.createdAt).to.match(dateRegex, \"Date should be in ISO format\");",
+							"    ",
+							"    // Дополнительно проверяем, что это валидная дата",
+							"    const date = new Date(responseData.createdAt);",
+							"    pm.expect(date.toISOString()).to.equal(responseData.createdAt, \"Date should be valid and in ISO format\");",
+							"});",
+							"",
+							"// Сохраняем createdAt в переменную коллекции для последующих проверок",
+							"pm.collectionVariables.set(\"createdAt\", responseData.createdAt);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -41,6 +87,48 @@
 		},
 		{
 			"name": "Update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверка статус-кода",
+							"pm.test(\"Status code is 200 (OK)\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Получаем данные из запроса и ответа",
+							"const requestData = JSON.parse(pm.request.body.raw);",
+							"const responseData = pm.response.json();",
+							"",
+							"// Проверяем, что параметры \"name\" и \"job\" в ответе соответствуют отправленным",
+							"pm.test(\"Name and job should match request data\", function() {",
+							"    pm.expect(responseData.name).to.eql(requestData.name);",
+							"    pm.expect(responseData.job).to.eql(requestData.job);",
+							"});",
+							"",
+							"// Проверка наличия параметра 'updatedAt' в корректном формате",
+							"pm.test(\"updatedAt should exist and be in correct date format\", function() {",
+							"    pm.expect(responseData).to.have.property('updatedAt');",
+							"    ",
+							"    // Проверка корректности формата даты ISO",
+							"    const dateRegex = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$/;",
+							"    pm.expect(responseData.updatedAt).to.match(dateRegex, \"updatedAt should be in ISO format\");",
+							"    ",
+							"    // Дополнительно проверяем, что это валидная дата",
+							"    const date = new Date(responseData.updatedAt);",
+							"    pm.expect(date).to.be.a('Date').that.is.not.null;",
+							"    pm.expect(isNaN(date.getTime())).to.be.false;",
+							"});",
+							"",
+							"// Сохраняем updatedAt в переменную коллекции для последующих проверок",
+							"pm.collectionVariables.set(\"lastUpdatedAt\", responseData.updatedAt);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -75,6 +163,35 @@
 		},
 		{
 			"name": "Recheck Update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверка статус-кода",
+							"pm.test(\"Status code is 200 (OK)\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Получаем данные ответа",
+							"const responseData = pm.response.json();",
+							"",
+							"// Сравнение значения параметра \"updatedAt\", полученного из предыдущего ответа",
+							"if (pm.collectionVariables.get(\"lastUpdatedAt\")) {",
+							"    pm.test(\"'updatedAt' has changed since the last request\", () => {",
+							"        const lastUpdatedAt = pm.collectionVariables.get(\"lastUpdatedAt\");",
+							"        pm.expect(responseData.updatedAt).to.not.eql(lastUpdatedAt);",
+							"    });",
+							"}",
+							"",
+							"// Сохраняем updatedAt в переменную коллекции для последующих проверок",
+							"pm.collectionVariables.set(\"lastUpdatedAt\", responseData.updatedAt);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -109,6 +226,44 @@
 		},
 		{
 			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверяем, что ответ пустой (либо статус 204, либо тело ответа отсутствует)",
+							"pm.test(\"Status code is 204 (No content) and Response should be empty\", () => {",
+							"    // Проверяем статус 204 (No Content) или пустое тело ответа",
+							"    if (pm.response.code === 204) {",
+							"        pm.expect(pm.response.text()).to.be.empty;",
+							"    } else {",
+							"        // Если статус не 204, проверяем, что тело ответа пустое (null, undefined или \"\")",
+							"        const responseBody = pm.response.text();",
+							"        pm.expect(!responseBody || responseBody.trim() === \"\").to.be.true;",
+							"    }",
+							"});",
+							"",
+							"// Удаляем переменную 'lastUpdatedAt', если она существует",
+							"if (pm.collectionVariables.get(\"lastUpdatedAt\")) {",
+							"    pm.collectionVariables.unset(\"lastUpdatedAt\");",
+							"    console.log(\"Variable 'lastUpdatedAt' has been removed from collection\");",
+							"} else {",
+							"    console.log(\"Variable 'lastUpdatedAt' does not exist in collection\");",
+							"}",
+							"",
+							"// Удаляем переменную 'createdAt', если она существует",
+							"if (pm.collectionVariables.get(\"createdAt\")) {",
+							"    pm.collectionVariables.unset(\"createdAt\");",
+							"    console.log(\"Variable 'createdAt' has been removed from collection\");",
+							"} else {",
+							"    console.log(\"Variable 'createdAt' does not exist in collection\");",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [

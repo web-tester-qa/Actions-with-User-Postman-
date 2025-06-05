@@ -13,7 +13,7 @@
 				"header": [
 					{
 						"key": "x-api-key",
-						"value": "reqres-free-v1",
+						"value": "{{api_key}}",
 						"type": "text"
 					}
 				],
@@ -27,11 +27,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://reqres.in/api/users",
-					"protocol": "https",
+					"raw": "{{baseURL}}/api/users",
 					"host": [
-						"reqres",
-						"in"
+						"{{baseURL}}"
 					],
 					"path": [
 						"api",
@@ -48,7 +46,7 @@
 				"header": [
 					{
 						"key": "x-api-key",
-						"value": "reqres-free-v1",
+						"value": "{{api_key}}",
 						"type": "text"
 					}
 				],
@@ -62,11 +60,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://reqres.in/api/users/2",
-					"protocol": "https",
+					"raw": "{{baseURL}}/api/users/2",
 					"host": [
-						"reqres",
-						"in"
+						"{{baseURL}}"
 					],
 					"path": [
 						"api",
@@ -84,7 +80,7 @@
 				"header": [
 					{
 						"key": "x-api-key",
-						"value": "reqres-free-v1",
+						"value": "{{api_key}}",
 						"type": "text"
 					}
 				],
@@ -98,11 +94,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://reqres.in/api/users/2",
-					"protocol": "https",
+					"raw": "{{baseURL}}/api/users/2",
 					"host": [
-						"reqres",
-						"in"
+						"{{baseURL}}"
 					],
 					"path": [
 						"api",
@@ -120,7 +114,7 @@
 				"header": [
 					{
 						"key": "x-api-key",
-						"value": "reqres-free-v1",
+						"value": "{{api_key}}",
 						"type": "text"
 					}
 				],
@@ -129,11 +123,9 @@
 					"raw": "{\n    \"name\": \"User\",\n    \"job\": \"QA\"\n}"
 				},
 				"url": {
-					"raw": "https://reqres.in/api/users/2",
-					"protocol": "https",
+					"raw": "{{baseURL}}/api/users/2",
 					"host": [
-						"reqres",
-						"in"
+						"{{baseURL}}"
 					],
 					"path": [
 						"api",

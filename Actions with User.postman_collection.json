@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "48db6816-a452-4cd2-96cb-783cae4bcf59",
 		"name": "Actions with User",
+		"description": "RU: Pet-коллекция запросов к открытому API ([https://reqres.in](https://reqres.in)), демонстрирующая работу с Пользователями, возможные проверки, работу с переменными коллекции и окружения.\n\nEN: A sample request collection for the open API ([https://reqres.in](https://reqres.in/)), showcasing User operations, validation examples, and the use of collection/environment variables.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21530504"
 	},

@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"User\",\n    \"job\": \"Tester\"\n}",
+					"raw": "{\n    \"name\": \"{{user_name}}\",\n    \"job\": \"{{user_job}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,7 +52,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"User\",\n    \"job\": \"QA\"\n}",
+					"raw": "{\n    \"name\": \"{{user_name}}\",\n    \"job\": \"{{update_user_job}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,7 +86,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"User\",\n    \"job\": \"QA\"\n}",
+					"raw": "{\n    \"name\": \"{{user_name}}\",\n    \"job\": \"{{update_user_job}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -120,7 +120,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"User\",\n    \"job\": \"QA\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "{{baseURL}}/api/users/2",
@@ -135,6 +135,45 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user_name",
+			"value": "User",
+			"type": "string"
+		},
+		{
+			"key": "user_job",
+			"value": "Tester",
+			"type": "string"
+		},
+		{
+			"key": "update_user_job",
+			"value": "QA",
+			"type": "string"
 		}
 	]
 }
